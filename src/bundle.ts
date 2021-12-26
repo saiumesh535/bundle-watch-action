@@ -28,7 +28,7 @@ export const checkBundle = async (
 
   // check with target branch if any
   if (input.targetBranch) {
-    const isTargetFileExists = await isFileExists({ Bucket: input.bucket, Key: input.targetBranch });
+    const isTargetFileExists = await isFileExists({ Bucket: input.bucket, Key: `${input.targetBranch}.json` });
     if (!isTargetFileExists) {
       // now check the difference if any
       info("target branch not found for comparison");
