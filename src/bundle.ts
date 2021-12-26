@@ -24,7 +24,7 @@ export const checkBundle = async (
 
   // calculate all the bundle size
   for (const config of bundleConfig) {
-    const fileSize = statSync("config.files.path").size / (1024 * 1024)
+    const fileSize = statSync(config.files.path).size / (1024 * 1024)
     const currentConfig: BundleConfig = {
       files: {path: config.files.path, size: fileSize}
     }
