@@ -10,10 +10,8 @@ type CheckBundle = {
 }
 
 export type BundleConfig = {
-  files: {
-    path: string
-    size: number
-  }
+  path: string
+  size: number
 }
 
 export const checkBundle = async (
@@ -25,9 +23,9 @@ export const checkBundle = async (
 
   // calculate all the bundle size
   for (const config of bundleConfig) {
-    const fileSize = statSync(config.files.path).size / (1024 * 1024)
+    const fileSize = statSync(config.path).size / (1024 * 1024)
     const currentConfig: BundleConfig = {
-      files: { path: config.files.path, size: fileSize }
+      path: config.path, size: fileSize
     }
     result = [...result, currentConfig]
   }
