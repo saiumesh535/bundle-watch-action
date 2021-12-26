@@ -13,6 +13,10 @@ async function run(): Promise<void> {
     const configPath = getInput('CONFIG_PATH')
     const targetBranch = getInput('TARGET_BRANCH')
 
+    if (branchName && branchName.includes('/')) {
+      branchName = branchName.replace('/', '_')
+    }
+
     info(JSON.stringify({
       branchName,
       bucketName,
@@ -32,7 +36,7 @@ async function run(): Promise<void> {
     const config: BundleConfig[] = JSON.parse(
       readFileSync(configPath, { encoding: 'utf-8' })
     )
-    await checkBundle({ bucket: `${bucketName}`, path: branchName, targetBranch }, config)
+    await checkBundle({ bucket: `${bucketName}`, path: `${branchName}.json`, targetBranch }, config)
   } catch (error) {
     setFailed(error.message)
   }
