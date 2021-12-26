@@ -1,4 +1,4 @@
-import { getInput, info, setFailed } from '@actions/core'
+import { getInput, info, setFailed, setOutput } from '@actions/core'
 import { readFileSync } from 'fs'
 import { BundleConfig, checkBundle } from './bundle'
 import { initAWS } from './s3'
@@ -30,7 +30,8 @@ async function run(): Promise<void> {
     const config: BundleConfig[] = JSON.parse(
       readFileSync(configPath, { encoding: 'utf-8' })
     )
-    await checkBundle({ bucket: `${bucketName}`, path: `${branchName}.json`, targetBranch }, config)
+    const md = await checkBundle({ bucket: `${bucketName}`, path: `${branchName}.json`, targetBranch }, config);
+    setOutput('comment', md);
   } catch (error) {
     setFailed(error.message)
   }

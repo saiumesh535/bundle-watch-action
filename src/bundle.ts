@@ -1,5 +1,6 @@
-import {isFileExists, pushS3Object} from './s3'
-import {statSync} from 'fs'
+import { isFileExists, pushS3Object } from './s3';
+const app = require('json-to-markdown-table');
+import { statSync } from 'fs'
 import { info } from '@actions/core'
 
 type CheckBundle = {
@@ -18,7 +19,7 @@ export type BundleConfig = {
 export const checkBundle = async (
   input: CheckBundle,
   bundleConfig: BundleConfig[]
-): Promise<void> => {
+): Promise<string> => {
   // first try to see if previous file exists
   let result: BundleConfig[] = []
 
@@ -26,21 +27,26 @@ export const checkBundle = async (
   for (const config of bundleConfig) {
     const fileSize = statSync(config.files.path).size / (1024 * 1024)
     const currentConfig: BundleConfig = {
-      files: {path: config.files.path, size: fileSize}
+      files: { path: config.files.path, size: fileSize }
     }
     result = [...result, currentConfig]
   }
 
-  // check with previous branch if any
-  // const isTargetFileExists = await isFileExists();
-  // if (!isTargetFileExists) {
-  //   // now check the difference if any
-  //   info('checking')
-  // }
+  // check with target branch if any
+  if (input.targetBranch) {
+    const isTargetFileExists = await isFileExists({ Bucket: input.bucket, Key: input.targetBranch });
+    if (!isTargetFileExists) {
+      // now check the difference if any
+      info("target branch not found for comparison");
+    }
+    // now compare with target branch
+  }
 
   await pushS3Object({
     Bucket: input.bucket,
     Key: input.path,
     Body: JSON.stringify(result)
   })
+
+  return app(result, ['path', 'size']);
 }
