@@ -1,5 +1,6 @@
-import {isFileExists, pushS3Object, info} from './s3'
+import {isFileExists, pushS3Object} from './s3'
 import {statSync} from 'fs'
+import { info } from '@actions/core'
 
 type CheckBundle = {
   bucket: string;

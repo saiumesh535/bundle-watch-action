@@ -1,5 +1,5 @@
 import {S3, config} from 'aws-sdk'
-import {info} from '@actions/core'
+import {info} from '@actions/core';
 
 type AWSConfig = {
   accessKeyId: string
