@@ -73,7 +73,7 @@ export const checkBundle = async (
   })
 
   if (targetBranchData?.length > 0) {
-    return app(resultWithDiff, ['name', 'path', 'size', `Diff with ${input.targetBranch}`]);
+    return app(resultWithDiff, ['name', 'path', 'size', 'change']);
   }
   return app(result, ['name', 'path', 'size'])
 
