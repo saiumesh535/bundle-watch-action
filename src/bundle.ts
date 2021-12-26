@@ -35,7 +35,7 @@ export const checkBundle = async (
     } else {
       targetBranchData = await getS3Object({
         Bucket: input.bucket,
-        Key: input.targetBranch
+        Key: `${input.targetBranch}.json`
       });
     }
   }
