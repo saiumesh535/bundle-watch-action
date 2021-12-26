@@ -14,7 +14,7 @@ async function run(): Promise<void> {
     const targetBranch = getInput('TARGET_BRANCH')
 
     if (branchName && branchName.includes('/')) {
-      branchName = branchName.replace('/', '_')
+      branchName = branchName.replace(/\//g, '_')
     }
 
     info(JSON.stringify({
