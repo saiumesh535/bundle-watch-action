@@ -8,8 +8,6 @@ async function run(): Promise<void> {
     let branchName = getInput('BRANCH_NAME')
     const bucketName = getInput('BUCKET_NAME')
     const region = getInput('REGION')
-    const accessKeyId = getInput('AWS_ACCESS_KEY_ID')
-    const secretAccessKey = getInput('AWS_SECRET_ACCESS_KEY')
     const configPath = getInput('CONFIG_PATH')
     const targetBranch = getInput('TARGET_BRANCH')
 
@@ -21,16 +19,12 @@ async function run(): Promise<void> {
       branchName,
       bucketName,
       region,
-      accessKeyId,
-      secretAccessKey,
       configPath,
       targetBranch
     }))
 
     initAWS({
-      region,
-      accessKeyId,
-      secretAccessKey
+      region
     })
 
     const config: BundleConfig[] = JSON.parse(

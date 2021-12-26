@@ -2,8 +2,6 @@ import { S3, config } from 'aws-sdk'
 import { info } from '@actions/core';
 
 type AWSConfig = {
-  accessKeyId: string
-  secretAccessKey: string
   region: string
 }
 
