@@ -22,14 +22,18 @@ export const initAWS = (input: AWSConfig): void => {
 
 const S3Instance = new S3()
 
-export const getS3Object = async ({ Bucket, Key }: S3Base): Promise<void> => {
+export const getS3Object = async <T = []>({ Bucket, Key }: S3Base): Promise<T | []> => {
   return new Promise((res, rej) => {
     info(`getting data from ${Bucket} with path ${Key}`)
-    S3Instance.getObject({ Bucket, Key }, err => {
+    S3Instance.getObject({ Bucket, Key }, (err, data) => {
       if (err) {
         return rej(err)
       }
-      return res()
+      if (data?.Body) {
+        return res(JSON.parse(data.Body?.toString()))
+      } else {
+        return res([]);
+      }
     })
   })
 }
