@@ -5,7 +5,7 @@ import { initAWS } from './s3'
 
 async function run(): Promise<void> {
   try {
-    const branchName = getInput('BRANCH_NAME')
+    let branchName = getInput('BRANCH_NAME')
     const bucketName = getInput('BUCKET_NAME')
     const region = getInput('REGION')
     const accessKeyId = getInput('AWS_ACCESS_KEY_ID')
@@ -32,7 +32,7 @@ async function run(): Promise<void> {
     const config: BundleConfig[] = JSON.parse(
       readFileSync(configPath, { encoding: 'utf-8' })
     )
-    await checkBundle({ bucket: `${bucketName}}`, path: branchName, targetBranch }, config)
+    await checkBundle({ bucket: `${bucketName}`, path: branchName, targetBranch }, config)
   } catch (error) {
     setFailed(error.message)
   }
