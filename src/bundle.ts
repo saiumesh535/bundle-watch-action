@@ -10,6 +10,7 @@ type CheckBundle = {
 }
 
 export type BundleConfig = {
+  name: string;
   path: string
   size: string;
 }
@@ -25,7 +26,8 @@ export const checkBundle = async (
   for (const config of bundleConfig) {
     const fileSize = statSync(config.path).size / (1024)
     const currentConfig: BundleConfig = {
-      path: config.path, size: `${fileSize} KB`
+      ...config,
+      size: `${fileSize} KB`
     }
     result = [...result, currentConfig]
   }
@@ -46,5 +48,5 @@ export const checkBundle = async (
     Body: JSON.stringify(result)
   })
 
-  return app(result, ['path', 'size']);
+  return app(result, ['name', 'path', 'size']);
 }
