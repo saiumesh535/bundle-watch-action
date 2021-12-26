@@ -1,9 +1,10 @@
-import {pushS3Object} from './s3'
+import {isFileExists, pushS3Object, info} from './s3'
 import {statSync} from 'fs'
 
 type CheckBundle = {
-  bucket: string
-  path: string
+  bucket: string;
+  path: string;
+  targetBranch: string;
 }
 
 export type BundleConfig = {
@@ -28,5 +29,13 @@ export const checkBundle = async (
     }
     result = [...result, currentConfig]
   }
+
+  // check with previous branch if any
+  const isTargetFileExists = await isFileExists(input.bucket, input.targetBranch);
+  if (!isTargetFileExists) {
+    // now check the difference if any
+    info('checkinggg')
+  }
+
   await pushS3Object(input.path, input.bucket, JSON.stringify(result))
 }

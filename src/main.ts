@@ -1,7 +1,7 @@
-import {getInput, setFailed} from '@actions/core'
-import {readFileSync} from 'fs'
-import {BundleConfig, checkBundle} from './bundle'
-import {initAWS} from './s3'
+import { getInput, setFailed } from '@actions/core'
+import { readFileSync } from 'fs'
+import { BundleConfig, checkBundle } from './bundle'
+import { initAWS } from './s3'
 
 async function run(): Promise<void> {
   try {
@@ -11,6 +11,7 @@ async function run(): Promise<void> {
     const accessKeyId = getInput('AWS_ACCESS_KEY_ID')
     const secretAccessKey = getInput('AWS_SECRET_ACCESS_KEY')
     const configPath = getInput('CONFIG_PATH')
+    const targetBranch = getInput('TARGET_BRANCH')
 
     initAWS({
       region,
@@ -19,9 +20,9 @@ async function run(): Promise<void> {
     })
 
     const config: BundleConfig[] = JSON.parse(
-      readFileSync(configPath, {encoding: 'utf-8'})
+      readFileSync(configPath, { encoding: 'utf-8' })
     )
-    await checkBundle({bucket: `${bucketName}/${branchName}`, path: branchName}, config)
+    await checkBundle({ bucket: `${bucketName}}`, path: branchName, targetBranch }, config)
   } catch (error) {
     setFailed(error.message)
   }
