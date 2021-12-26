@@ -1,10 +1,19 @@
-import {S3, config} from 'aws-sdk'
-import {info} from '@actions/core';
+import { S3, config } from 'aws-sdk'
+import { info } from '@actions/core';
 
 type AWSConfig = {
   accessKeyId: string
   secretAccessKey: string
   region: string
+}
+
+type S3Base = {
+  Bucket: string;
+  Key: string;
+}
+
+type S3BaseData = S3Base & {
+  Body: string;
 }
 
 export const initAWS = (input: AWSConfig): void => {
@@ -15,13 +24,10 @@ export const initAWS = (input: AWSConfig): void => {
 
 const S3Instance = new S3()
 
-export const getS3Object = async (
-  path: string,
-  Bucket: string
-): Promise<void> => {
+export const getS3Object = async ({ Bucket, Key }: S3Base): Promise<void> => {
   return new Promise((res, rej) => {
-    info(`getting data from ${Bucket} with path ${path}`)
-    S3Instance.getObject({Bucket, Key: path}, err => {
+    info(`getting data from ${Bucket} with path ${Key}`)
+    S3Instance.getObject({ Bucket, Key }, err => {
       if (err) {
         return rej(err)
       }
@@ -31,13 +37,11 @@ export const getS3Object = async (
 }
 
 export const pushS3Object = async (
-  path: string,
-  Bucket: string,
-  data: string
+  { Bucket, Key, Body }: S3BaseData
 ): Promise<void> => {
   return new Promise((res, rej) => {
-    info(`pushing data into bucker ${Bucket} with path ${path}`)
-    S3Instance.putObject({Bucket, Key: `${path}.json`, Body: data}, err => {
+    info(`pushing data into bucker ${Bucket} with path ${Key}`)
+    S3Instance.putObject({ Bucket, Key, Body }, err => {
       if (err) {
         return rej(err)
       }
@@ -47,11 +51,10 @@ export const pushS3Object = async (
 }
 
 export const isFileExists = async (
-  bucket: string,
-  path: string
+  input: S3Base
 ): Promise<boolean> => {
   return new Promise(res => {
-    getS3Object(path, bucket)
+    getS3Object({ ...input })
       .then(() => {
         return res(true)
       })
