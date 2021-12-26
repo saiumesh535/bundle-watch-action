@@ -1,4 +1,4 @@
-import { getInput, setFailed } from '@actions/core'
+import { getInput, info, setFailed } from '@actions/core'
 import { readFileSync } from 'fs'
 import { BundleConfig, checkBundle } from './bundle'
 import { initAWS } from './s3'
@@ -12,6 +12,16 @@ async function run(): Promise<void> {
     const secretAccessKey = getInput('AWS_SECRET_ACCESS_KEY')
     const configPath = getInput('CONFIG_PATH')
     const targetBranch = getInput('TARGET_BRANCH')
+
+    info(JSON.stringify({
+      branchName,
+      bucketName,
+      region,
+      accessKeyId,
+      secretAccessKey,
+      configPath,
+      targetBranch
+    }))
 
     initAWS({
       region,
