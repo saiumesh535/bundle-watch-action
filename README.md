@@ -6,9 +6,9 @@
       id: bundlewatch
       with:
         BRANCH_NAME: ${{needs.rules.outputs.branch_name}}
-        BUCKET_NAME: "apty-bundle-watch/apty-assist"
+        BUCKET_NAME: "<S3-bucket-name>"
         REGION: "us-east-1"
-        CONFIG_PATH: <path-to-config-file>
+        CONFIG_PATH: "<path-to-config-file>"
         TARGET_BRANCH: ${{github.event.pull_request.base.ref}}
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
