@@ -9,10 +9,14 @@ async function run(): Promise<void> {
     const bucketName = getInput('BUCKET_NAME')
     const region = getInput('REGION')
     const configPath = getInput('CONFIG_PATH')
-    const targetBranch = getInput('TARGET_BRANCH')
+    let targetBranch = getInput('TARGET_BRANCH')
 
     if (branchName && branchName.includes('/')) {
       branchName = branchName.replace(/\//g, '_')
+    }
+
+    if (targetBranch && targetBranch.includes('/')) {
+      targetBranch = targetBranch.replace(/\//g, '_')
     }
 
     info(JSON.stringify({

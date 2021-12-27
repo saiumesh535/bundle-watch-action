@@ -1,11 +1,23 @@
 name: 'Your name here'
 description: 'Provide a description here'
 author: 'Your name or organization here'
-# inputs:
-#   milliseconds: # change this
-#     required: true
-#     description: 'input description here'
-#     default: 'default value if applicable'
+inputs:
+  BRANCH_NAME:
+    required: true
+    description: 'Current branch name'
+  BUCKET_NAME:
+    required: true
+    description: 'AWS S3 bucket to push the data'
+  REGION:
+    required: true
+    description: 'AWS S3 bucket region'
+  CONFIG_PATH:
+    required: true
+    description: 'Path to config file used in action'
+  TARGET_BRANCH:
+    required: true
+    description: 'Target branch of PR'
+    
 runs:
   using: 'node12'
   main: 'dist/index.js'
