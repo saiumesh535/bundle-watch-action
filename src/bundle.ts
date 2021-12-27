@@ -59,8 +59,8 @@ export const checkBundle = async (
     for (const cur of result) {
       const fromTarget = targetBranchData.find((t) => t.name === cur.name);
       if (fromTarget && cur.sizeNumber && fromTarget.sizeNumber) {
-        const sizeDif: string = `${((cur.sizeNumber / fromTarget.sizeNumber) * 100) - 100}`;
-        cur.change = sizeDif;
+        const sizeDif = Number(((cur.sizeNumber / fromTarget.sizeNumber) * 100).toFixed(2)) - 100;
+        cur.change = `${sizeDif}`;
       }
       resultWithDiff = [...resultWithDiff, { ...cur }];
     }
