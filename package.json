@@ -26,7 +26,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.6.0",
+    "@actions/core": "^1.9.1",
     "@actions/github": "^5.0.0",
     "aws-sdk": "^2.1048.0",
     "json-to-markdown-table": "^1.0.0"
